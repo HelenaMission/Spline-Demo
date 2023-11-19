@@ -256,20 +256,25 @@ const CanvasComponent: React.FC = () => {
       lastTargetRef.current.y = targetRef.current.y;
     }
 
-    const handleMouseMove = (e: MouseEvent): void => {
-      console.log("mouse  movement", e.pageX, e.pageY);
+    // const handleMouseMove = (e: MouseEvent): void => {
+    //   console.log("mouse  movement", e.pageX, e.pageY);
 
-      lastMouseRef.current.x = mouseRef.current.x;
-      lastMouseRef.current.y = mouseRef.current.y;
+    //   lastMouseRef.current.x = mouseRef.current.x;
+    //   lastMouseRef.current.y = mouseRef.current.y;
 
-      mouseRef.current.x = e.pageX;
-      mouseRef.current.y = e.pageY;
-    };
+    //   mouseRef.current.x = e.pageX;
+    //   mouseRef.current.y = e.pageY;
+    // };
 
     const handleMouseLeave = (): void => {
       mouseRef.current.x = false;
       mouseRef.current.y = false;
     };
+
+    const handleMouseEnter = (): void => {
+      mouseRef.current.x = lastMouseRef.current.x;
+      mouseRef.current.y = lastMouseRef.current.y;
+    }
 
     const handleMouseDown = (): void => {
       clicked = true;
@@ -291,8 +296,9 @@ const CanvasComponent: React.FC = () => {
       draw();
     };
 
-    canvas.addEventListener("mousemove", handleMouseMove, false);
-    canvas.addEventListener("mouseleave", handleMouseLeave);
+    // canvas.addEventListener("mousemove", handleMouseMove, false);
+    canvas.addEventListener("mouseenter", handleMouseEnter);
+    canvas.addEventListener("mouseleave", handleMouseLeave,false);
     canvas.addEventListener("mousedown", handleMouseDown, false);
     canvas.addEventListener("mouseup", handleMouseUp, false);
     window.addEventListener("resize", handleResize);
@@ -300,8 +306,9 @@ const CanvasComponent: React.FC = () => {
     loop();
 
     return () => {
-      canvas.removeEventListener("mousemove", handleMouseMove);
+      // canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseleave", handleMouseLeave);
+      canvas.removeEventListener("mouseenter", handleMouseEnter);
       canvas.removeEventListener("mousedown", handleMouseDown);
       canvas.removeEventListener("mouseup", handleMouseUp);
       window.removeEventListener("resize", handleResize);

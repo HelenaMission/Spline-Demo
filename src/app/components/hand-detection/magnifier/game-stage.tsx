@@ -14,7 +14,8 @@ export const GameStage = () => {
   return (
     <div className="absolute left-0 top-0 w-full h-full overflow-hidden z-0">
       <div className="absolute w-full- h-full z-30 ">
-        <CanvasComponent />
+        {/* <CanvasComponent /> */}
+        <SplineScene />
       </div>
       <div className="absolute w-full h-full z-40 pointer-events-none">
         {/* Player Hand with z-index 40 */}

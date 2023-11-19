@@ -33,9 +33,16 @@ export const useBodyPoseState = (): IBodyPose => {
   return useSnapshot(poseState as any);
 };
 
+ 
 export const initPoseDetection = async () => {
-  detector = await handPoseDetection.createDetector(model, detectorConfig);
+  try {
+    detector = await handPoseDetection.createDetector(model, detectorConfig);
+    console.log('Hand pose detection model loaded successfully.');
+  } catch (error) {
+    console.error('Error loading hand pose detection model:', error);
+  }
 };
+
 
 export const detectPose = async (canvas: HTMLCanvasElement) => {
   if (detector) {
@@ -46,6 +53,15 @@ export const detectPose = async (canvas: HTMLCanvasElement) => {
       const point = pose.keypoints[9]; //middle_finger_mcp
       if (point) {
         poseState.pointers.push(scaleToScreen(point));
+
+        // Trigger custom events based on hand position
+        const handEvent = new CustomEvent('handmove', {
+          detail: {
+            x: point.x,
+            y: point.y,
+          },
+        });
+        document.dispatchEvent(handEvent);
       }
     });
   }

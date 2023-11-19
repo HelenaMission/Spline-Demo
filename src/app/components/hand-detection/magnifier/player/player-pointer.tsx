@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
-import { IPosition } from "../../../../common/models";
-import "./player-pointer.css";
+import React, { useEffect, useRef } from 'react';
+import { IPosition } from '../../../../common/models';
+import './player-pointer.css';
 
 interface IProp {
   position: IPosition;
@@ -23,39 +23,28 @@ export const PlayerPointer: React.FC<IProp> = (props) => {
 
       magnifier.style.left = `${x}px`;
       magnifier.style.top = `${y}px`;
-      magnifier.style.backgroundPosition = `-${x * magnification}px -${
-        y * magnification
-      }px`;
-      magnifier.style.backgroundSize = `${
-        window.innerWidth * magnification
-      }px ${window.innerHeight * magnification}px`;
+      magnifier.style.backgroundPosition = `-${x * magnification}px -${y * magnification}px`;
+      magnifier.style.backgroundSize = `${window.innerWidth * magnification}px ${window.innerHeight * magnification}px`;
       magnifier.style.backgroundImage = `url(${document.body.style.backgroundImage})`;
 
       // Dispatch custom event when the component mounts
-      const customPointerReadyEvent = new Event("customPointerReady");
+      const customPointerReadyEvent = new Event('customPointerReady');
       document.dispatchEvent(customPointerReadyEvent);
 
       // Simulate mousemove event
-      const pointermoveEvent = new MouseEvent("mousemove", {
+      const pointerDownEvent = new MouseEvent('mouseenter', {
         clientX: x,
         clientY: y,
       });
-      document.dispatchEvent(pointermoveEvent);
-
-      // Simulate mouseover event
-      // const mouseoverEvent = new MouseEvent("mouseover", {
-      //   clientX: x,
-      //   clientY: y,
-      // });
-      // document.dispatchEvent(mouseoverEvent);
+      document.dispatchEvent(pointerDownEvent);
+      console.log('player-pointer:', pointerDownEvent);
     }
-    console.log("Pointer Move - PlayerPointer Component");
   }, [props.position]);
 
   return (
     <div
       ref={magnifierRef}
-      className="playerPointer"
+      className='playerPointer'
       style={{
         height: `${props.height}px`,
         width: `${props.width}px`,
